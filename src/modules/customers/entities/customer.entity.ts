@@ -1,5 +1,6 @@
 // entities/customer.entity.ts
-import { Entity, PrimaryGeneratedColumn, Column, Unique } from 'typeorm';
+import { Charge } from 'src/modules/charges/entities/charge.entity';
+import { Entity, PrimaryGeneratedColumn, Column, Unique, OneToMany } from 'typeorm';
 
 @Entity('customers')
 @Unique(['email', 'document'])
@@ -18,4 +19,7 @@ export class Customer {
 
   @Column()
   phone: string;
+
+  @OneToMany(() => Charge, (charge) => charge.customer)
+  charges: Charge[];
 }

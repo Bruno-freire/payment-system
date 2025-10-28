@@ -22,6 +22,11 @@ export class CustomerController {
     return this.customerService.findOne(id);
   }
 
+  @Get(':id/charges')
+  getCharges(@Param('id') id: string) {
+    return this.customerService.findChargesByCustomer(id);
+  }
+
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateCustomerDto: UpdateCustomerDto) {
     return this.customerService.update(id, updateCustomerDto);

@@ -35,6 +35,21 @@ export class CustomerService {
     return this.customerRepository.save(customer);
   }
 
+  async findChargesByCustomer(id: string) {
+    const customer = await this.customerRepository.findOne({
+      where: { id },
+      relations: ['charges'],
+    });
+
+    if (!customer) throw new NotFoundException('Cliente não encontrado');
+
+    return {
+      customerId: customer.id,
+      customerName: customer.name,
+      charges: customer.charges,
+    };
+  }
+
   async remove(id: string): Promise<void> {
     const customer = await this.findOne(id);
     await this.customerRepository.remove(customer);

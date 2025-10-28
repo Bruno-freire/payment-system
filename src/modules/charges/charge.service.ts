@@ -9,12 +9,13 @@ import { Repository } from 'typeorm';
 import { Customer } from '../customers/entities/customer.entity';
 import { Charge } from './entities/charge.entity';
 import { PaymentMethod, PaymentStatus } from './enum/payment-enum';
+import { UpdateChargeStatusDto } from './dto/update-charge.dto';
 
 @Injectable()
 export class ChargeService {
   constructor(
     @InjectRepository(Charge)
-    private readonly chargeRepo: Repository<Charge>,
+    private readonly chargeRepository: Repository<Charge>,
 
     @InjectRepository(Customer)
     private readonly customerRepo: Repository<Customer>,
@@ -48,7 +49,7 @@ export class ChargeService {
     }
 
     // Cria a cobrança
-    const chargeCreated = this.chargeRepo.create({
+    const chargeCreated = this.chargeRepository.create({
       amount: charge.amount,
       currency: charge.currency,
       method: charge.method,
@@ -58,25 +59,41 @@ export class ChargeService {
       installments: charge.installments,
     });
 
-    await this.chargeRepo.save(charge);
+    await this.chargeRepository.save(charge);
 
     return chargeCreated;
   }
 
   async findAll(): Promise<Charge[]> {
-    return this.chargeRepo.find({
+    return this.chargeRepository.find({
       relations: ['customer'],
       order: { createdAt: 'DESC' },
     });
   }
 
   async findOne(id: string): Promise<Charge> {
-    const charge = await this.chargeRepo.findOne({
+    const charge = await this.chargeRepository.findOne({
       where: { id },
       relations: ['customer'],
     });
 
     if (!charge) throw new NotFoundException('Cobrança não encontrada');
+    return charge;
+  }
+
+  async updateStatus(id: string, dto: UpdateChargeStatusDto) {
+    const charge = await this.chargeRepository.findOne({ where: { id } });
+
+    if (!charge) throw new NotFoundException('Cobrança não encontrada');
+
+    if (charge.status === 'PAID')
+      throw new BadRequestException(
+        'Cobrança já está paga e não pode ser alterada',
+      );
+
+    charge.status = dto.status;
+    await this.chargeRepository.save(charge);
+
     return charge;
   }
 }

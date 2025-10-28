@@ -1,98 +1,175 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>
-</p>
+Sistema de Pagamentos — API RESTful
+📘 Visão Geral
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+Este projeto é uma API RESTful desenvolvida com NestJS e TypeORM, projetada para simular um sistema de pagamentos simplificado.
+A aplicação permite cadastrar clientes, criar cobranças associadas a eles e gerenciar o status de cada cobrança.
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg" alt="Donate us"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow" alt="Follow us on Twitter"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+A API suporta os seguintes métodos de pagamento:
 
-## Description
+Pix
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+Cartão de Crédito
 
-## Project setup
+Boleto Bancário
 
-```bash
-$ npm install
-```
+⚙️ Tecnologias Principais
 
-## Compile and run the project
+Node.js / NestJS
 
-```bash
-# development
-$ npm run start
+TypeScript
 
-# watch mode
-$ npm run start:dev
+TypeORM
 
-# production mode
-$ npm run start:prod
-```
+PostgreSQL
 
-## Run tests
+Docker e Docker Compose
 
-```bash
-# unit tests
-$ npm run test
+Class-validator / Class-transformer (validações)
 
-# e2e tests
-$ npm run test:e2e
+dotenv (variáveis de ambiente)
 
-# test coverage
-$ npm run test:cov
-```
+🧱 Estrutura de Pastas
+src/
+ ├── core/
+ │    ├── database/
+ │    │    └── database.module.ts        # Configuração do TypeORM e banco
+ │    └── config/
+ │         └── (demais configurações globais)
+ │
+ ├── modules/
+ │    ├── customer/
+ │    │    ├── customer.controller.ts
+ │    │    ├── customer.service.ts
+ │    │    ├── dto/
+ │    │    └── entities/
+ │    │
+ │    └── charge/
+ │         ├── charge.controller.ts
+ │         ├── charge.service.ts
+ │         ├── dto/
+ │         └── entities/
+ │
+ ├── app.module.ts
+ └── main.ts
 
-## Deployment
 
-When you're ready to deploy your NestJS application to production, there are some key steps you can take to ensure it runs as efficiently as possible. Check out the [deployment documentation](https://docs.nestjs.com/deployment) for more information.
+Essa estrutura segue o padrão modular do NestJS, mantendo cada domínio independente e organizado.
 
-If you are looking for a cloud-based platform to deploy your NestJS application, check out [Mau](https://mau.nestjs.com), our official platform for deploying NestJS applications on AWS. Mau makes deployment straightforward and fast, requiring just a few simple steps:
+🧩 Variáveis de Ambiente
 
-```bash
-$ npm install -g @nestjs/mau
-$ mau deploy
-```
+A aplicação depende de algumas variáveis definidas em um arquivo .env na raiz do projeto.
+Crie o arquivo e defina os seguintes nomes (os valores devem ser configurados por você):
 
-With Mau, you can deploy your application in just a few clicks, allowing you to focus on building features rather than managing infrastructure.
+POSTGRES_USER=
+POSTGRES_PASSWORD=
+POSTGRES_DB=
+POSTGRES_PORT=
 
-## Resources
+DB_HOST=
+DB_PORT=
+DB_USER=
+DB_PASSWORD=
+DB_NAME=
 
-Check out a few resources that may come in handy when working with NestJS:
 
-- Visit the [NestJS Documentation](https://docs.nestjs.com) to learn more about the framework.
-- For questions and support, please visit our [Discord channel](https://discord.gg/G7Qnnhy).
-- To dive deeper and get more hands-on experience, check out our official video [courses](https://courses.nestjs.com/).
-- Deploy your application to AWS with the help of [NestJS Mau](https://mau.nestjs.com) in just a few clicks.
-- Visualize your application graph and interact with the NestJS application in real-time using [NestJS Devtools](https://devtools.nestjs.com).
-- Need help with your project (part-time to full-time)? Check out our official [enterprise support](https://enterprise.nestjs.com).
-- To stay in the loop and get updates, follow us on [X](https://x.com/nestframework) and [LinkedIn](https://linkedin.com/company/nestjs).
-- Looking for a job, or have a job to offer? Check out our official [Jobs board](https://jobs.nestjs.com).
+Essas variáveis são usadas tanto pelo banco de dados quanto pela aplicação NestJS via TypeORM.
 
-## Support
+🐳 Executando com Docker
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+Certifique-se de ter Docker e Docker Compose instalados.
 
-## Stay in touch
+1️⃣ Suba os containers:
+docker compose up --build
 
-- Author - [Kamil Myśliwiec](https://twitter.com/kammysliwiec)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
 
-## License
+Esse comando:
 
-Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
+Cria o container do PostgreSQL com base nas variáveis do .env;
+
+Cria o container da API NestJS;
+
+Faz o link automático entre aplicação e banco.
+
+2️⃣ Acesse a API:
+http://localhost:3000
+
+🚀 Rodando sem Docker (opcional)
+
+Se desejar rodar localmente (sem containers):
+
+npm install
+npm run start:dev
+
+
+Certifique-se de que o PostgreSQL esteja rodando e que o .env esteja configurado corretamente.
+
+🌐 Endpoints Disponíveis
+🧾 Clientes (/customers)
+Método	Rota	Descrição
+POST	/customers	Cria um novo cliente
+GET	/customers	Lista todos os clientes
+GET	/customers/:id	Retorna um cliente pelo ID
+GET	/customers/:id/charges	Lista todas as cobranças do cliente
+💰 Cobranças (/charges)
+Método	Rota	Descrição
+POST	/charges	Cria uma nova cobrança vinculada a um cliente
+GET	/charges	Lista todas as cobranças
+GET	/charges/:id	Retorna detalhes de uma cobrança
+PATCH	/charges/:id/status	Atualiza o status da cobrança (PAID, FAILED, EXPIRED)
+🧠 Status e Métodos Suportados
+
+Status de cobrança:
+
+PENDING
+
+PAID
+
+FAILED
+
+EXPIRED
+
+Métodos de pagamento:
+
+PIX
+
+CREDIT_CARD
+
+BOLETO
+
+🧪 Exemplos de Uso
+Criar um Cliente
+POST /customers
+{
+  "name": "Bruno Freire",
+  "email": "bruno@email.com",
+  "document": "12345678900",
+  "phone": "+55 11 98888-7777"
+}
+
+Criar uma Cobrança
+POST /charges
+{
+  "customerId": "UUID_DO_CLIENTE",
+  "amount": 200.00,
+  "currency": "BRL",
+  "paymentMethod": "PIX"
+}
+
+Atualizar Status da Cobrança
+PATCH /charges/:id/status
+{
+  "status": "PAID"
+}
+
+🧰 Scripts úteis
+# Instalar dependências
+npm install
+
+# Rodar aplicação localmente
+npm run start:dev
+
+# Build do projeto
+npm run build
+
+# Rodar via Docker
+docker compose up --build
